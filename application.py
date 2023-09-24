@@ -32,7 +32,8 @@ def generate_image(path):
 
   result = cv2.add(foreground, background)
 
-  cv2.imwrite(f"NoBackImages/output_image.jpg", result)
+  image_filename = path.split('\\')
+  cv2.imwrite(f"static/{image_filename[-1]}", result)
 
 
 
@@ -54,13 +55,12 @@ def process_image():
     if image.filename == '':
         return render_template('error.html')
     
-
-    image_path = os.path.join('uploads', 'input_image.jpg')
+    image_path = os.path.join('uploads', image.filename)
     image.save(image_path)
 
     generate_image(image_path)
 
-    return render_template('imageDisplay.html', image_filename='output_image.jpg')
+    return render_template('imageDisplay.html', image_filename=image.filename)
     # return render_template('index.html')
 
 
